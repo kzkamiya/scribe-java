@@ -50,4 +50,11 @@ public interface OAuthService
    * @return the URL where you should redirect your users
    */
   public String getAuthorizationUrl(Token requestToken);
+  
+  /**
+   * For HTTP Proxy.
+   * @return
+   */
+  public OAuthConfig getConfig();
+  
 }

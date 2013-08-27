@@ -1,5 +1,6 @@
 package org.scribe.model;
 
+import java.net.Proxy;
 import java.util.*;
 
 /**
@@ -24,6 +25,18 @@ public class OAuthRequest extends Request
   {
     super(verb, url);
     this.oauthParameters = new HashMap<String, String>();
+  }
+
+  /**
+   * Default constructor.
+   * @param verb Http verb/method
+   * @param url resource URL
+   * @param proxy Http proxy
+   */
+  public OAuthRequest(Verb verb, String url, Proxy proxy)
+  {
+    this(verb, url);
+    super.setProxy(proxy);
   }
 
   /**

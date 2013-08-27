@@ -1,6 +1,7 @@
 package org.scribe.model;
 
 import java.io.*;
+import java.net.Proxy;
 
 /**
  * Parameter object that groups OAuth config values
@@ -15,6 +16,9 @@ public class OAuthConfig
   private final SignatureType signatureType;
   private final String scope;
   private final OutputStream debugStream;
+  
+  /*HTTP Proxy*/
+  private Proxy proxy = null;
   
   public OAuthConfig(String key, String secret)
   {
@@ -76,4 +80,15 @@ public class OAuthConfig
       }
     }
   }
+
+  /*Setter HTTP Proxy*/
+	public void setProxy(Proxy proxy) {
+		this.proxy = proxy;
+	}
+	
+  /*Getter HTTP Proxy*/
+	public Proxy getProxy() {
+		return proxy;
+	}
+
 }

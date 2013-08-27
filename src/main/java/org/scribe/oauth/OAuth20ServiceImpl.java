@@ -1,7 +1,12 @@
 package org.scribe.oauth;
 
-import org.scribe.builder.api.*;
-import org.scribe.model.*;
+import org.scribe.builder.api.DefaultApi20;
+import org.scribe.model.OAuthConfig;
+import org.scribe.model.OAuthConstants;
+import org.scribe.model.OAuthRequest;
+import org.scribe.model.Response;
+import org.scribe.model.Token;
+import org.scribe.model.Verifier;
 
 public class OAuth20ServiceImpl implements OAuthService
 {
@@ -28,6 +33,7 @@ public class OAuth20ServiceImpl implements OAuthService
   public Token getAccessToken(Token requestToken, Verifier verifier)
   {
     OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
+    request.setProxy(config.getProxy());
     request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
     request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
     request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
@@ -68,5 +74,10 @@ public class OAuth20ServiceImpl implements OAuthService
   {
     return api.getAuthorizationUrl(config);
   }
+
+	@Override
+	public OAuthConfig getConfig() {
+		return config;
+	}
 
 }

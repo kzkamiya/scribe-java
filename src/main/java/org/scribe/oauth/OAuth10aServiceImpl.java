@@ -169,6 +169,11 @@ public class OAuth10aServiceImpl implements OAuthService
         break;
     }
   }
+  
+	@Override
+	public OAuthConfig getConfig() {
+		return config;
+	}
 
   private static class TimeoutTuner extends RequestTuner
   {
@@ -187,4 +192,5 @@ public class OAuth10aServiceImpl implements OAuthService
       request.setReadTimeout(duration, unit);
     }
   }
+  
 }
