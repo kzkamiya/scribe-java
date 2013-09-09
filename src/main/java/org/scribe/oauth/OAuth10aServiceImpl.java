@@ -170,7 +170,6 @@ public class OAuth10aServiceImpl implements OAuthService
     }
   }
   
-	@Override
 	public OAuthConfig getConfig() {
 		return config;
 	}

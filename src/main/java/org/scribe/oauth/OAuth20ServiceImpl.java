@@ -87,7 +87,6 @@ public class OAuth20ServiceImpl implements OAuthService
     return api.getAuthorizationUrl(config);
   }
 
-	@Override
 	public OAuthConfig getConfig() {
 		return config;
 	}
