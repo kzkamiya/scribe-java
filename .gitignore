@@ -13,3 +13,7 @@ scribe.iml
 # Binaries
 
 target
+
+# subversion
+
+.svn
