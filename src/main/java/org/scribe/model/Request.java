@@ -91,6 +91,8 @@ public class Request
           connection = (HttpURLConnection) new URL(completeUrl).openConnection();
       }
       connection.setInstanceFollowRedirects(followRedirects);
+      connection.addRequestProperty("Accept", "*/*");
+
     }
   }
 
@@ -106,6 +108,12 @@ public class Request
 
   Response doSend(RequestTuner tuner) throws IOException
   {
+	  URL url = connection.getURL();
+	  String req = url.getQuery();
+	  if (req != null) {
+		  int size = req.length();
+		  connection.setRequestProperty(CONTENT_LENGTH, String.valueOf(size));
+	  }
     connection.setRequestMethod(this.verb.name());
     if (connectTimeout != null) 
     {
@@ -120,7 +128,13 @@ public class Request
     {
       addBody(connection, getByteBodyContents());
     }
-    tuner.tune(this);
+
+	  tuner.tune(this);
+    
+    // TODO: DEBUG.
+    System.out.println(connection);
+    System.out.println("connection.getRequestMethod = " + connection.getRequestMethod());
+    System.out.println("connection.getContentLength = " + connection.getContentLength());
     return new Response(connection);
   }
 
@@ -132,7 +146,9 @@ public class Request
 
   void addBody(HttpURLConnection conn, byte[] content) throws IOException
   {
-    conn.setRequestProperty(CONTENT_LENGTH, String.valueOf(content.length));
+	  if (content.length >= 1) {
+		    conn.setRequestProperty(CONTENT_LENGTH, String.valueOf(content.length));
+	  }
 
     // Set default content type if none is set.
     if (conn.getRequestProperty(CONTENT_TYPE) == null)

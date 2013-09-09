@@ -1,5 +1,7 @@
 package org.scribe.oauth;
 
+import java.net.Proxy;
+
 import org.scribe.model.*;
 
 /**

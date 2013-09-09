@@ -1,29 +1,40 @@
 package org.scribe.examples;
 
-import java.util.*;
+import java.net.Proxy;
+import java.util.Scanner;
 
-import org.scribe.builder.*;
-import org.scribe.builder.api.*;
-import org.scribe.model.*;
-import org.scribe.oauth.*;
+import org.scribe.builder.ServiceBuilder;
+import org.scribe.builder.api.OpenAMApi;
+import org.scribe.model.OAuthRequest;
+import org.scribe.model.Response;
+import org.scribe.model.Token;
+import org.scribe.model.Verb;
+import org.scribe.model.Verifier;
+import org.scribe.oauth.OAuthService;
 
-public class FacebookExample
+public class OpenAMExample
 {
-  private static final String NETWORK_NAME = "Facebook";
-  private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/me";
+  private static final String NETWORK_NAME = "OpenAM";
+  private static final String PROTECTED_RESOURCE_URL = "http://openam.test.local/openam/oauth2/tokeninfo";
   private static final Token EMPTY_TOKEN = null;
 
   public static void main(String[] args)
   {
     // Replace these with your own api key and secret
-    String apiKey = "217237548400529";
-    String apiSecret = "1021a102475793cdff68aa48d3f66988";
+    String apiKey = "oauth2client";
+    String apiSecret = "secret";
+    
     OAuthService service = new ServiceBuilder()
-                                  .provider(FacebookApi.class)
+                                  .provider(OpenAMApi.class)
                                   .apiKey(apiKey)
                                   .apiSecret(apiSecret)
-                                  .callback("http://openam.test.aomai.jp/")
+                                  .scope("cn mail")
+                                  .callback("http://openam.test.local")
                                   .build();
+    /* Set HTTP proxy.*/
+    Proxy proxy = null; //new Proxy(Proxy.Type.HTTP, new InetSocketAddress("localhost", 8081));
+    service.getConfig().setProxy(proxy);
+    
     Scanner in = new Scanner(System.in);
 
     System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
@@ -50,6 +61,8 @@ public class FacebookExample
     // Now let's go and ask for a protected resource!
     System.out.println("Now we're going to access a protected resource...");
     OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
+    //request.setProxy(proxy);
+    
     service.signRequest(accessToken, request);
     Response response = request.send();
     System.out.println("Got it! Lets see what we found...");

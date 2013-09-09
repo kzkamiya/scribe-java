@@ -12,14 +12,15 @@ public class GoogleExample
   private static final String NETWORK_NAME = "Google";
   private static final String AUTHORIZE_URL = "https://www.google.com/accounts/OAuthAuthorizeToken?oauth_token=";
   private static final String PROTECTED_RESOURCE_URL = "https://docs.google.com/feeds/default/private/full/";
-  private static final String SCOPE = "https://docs.google.com/feeds/"; 
+//  private static final String SCOPE = "https://docs.google.com/feeds/"; 
+  private static final String SCOPE = "http://www.google.com/m8/feeds/contacts/default/full/"; 
 
   public static void main(String[] args)
   {
     OAuthService service = new ServiceBuilder()
                                   .provider(GoogleApi.class)
-                                  .apiKey("anonymous")
-                                  .apiSecret("anonymous")
+                                  .apiKey("809136187279.apps.googleusercontent.com")
+                                  .apiSecret("kFxdEsBZvXC0nHyw38tZqaSH")
                                   .scope(SCOPE)
                                   .build();
     Scanner in = new Scanner(System.in);

@@ -10,9 +10,7 @@ import org.scribe.utils.Preconditions;
 
 public class OpenAMApi extends DefaultApi20
 {
-  private static final String BASE_URL = "http://openam.test.aomai.jp";
-  
-  private static final String AUTHORIZE_URL = "/openam/oauth2/authorize?response_type=code&client_id=%s&redirect_uri=%s";
+  private static final String AUTHORIZE_URL = "http://openam.test.local/openam/oauth2/authorize?response_type=code&client_id=%s&redirect_uri=%s";
   private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s";
   
   /**
@@ -33,7 +31,8 @@ public class OpenAMApi extends DefaultApi20
   @Override
   public String getAccessTokenEndpoint()
   {
-		return BASE_URL + "/openam/oauth2/access_token?grant_type=authorization_code";
+	  	  
+		return "http://openam.test.local/openam/oauth2/access_token?grant_type=authorization_code";
   }
 
   @Override
@@ -44,11 +43,11 @@ public class OpenAMApi extends DefaultApi20
     // Append scope if present
     if(config.hasScope())
     {
-     return String.format(BASE_URL + SCOPED_AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()), OAuthEncoder.encode(config.getScope()));
+     return String.format(SCOPED_AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()), OAuthEncoder.encode(config.getScope()));
     }
     else
     {
-      return String.format(BASE_URL + AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
+      return String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
     }
   }
 }
